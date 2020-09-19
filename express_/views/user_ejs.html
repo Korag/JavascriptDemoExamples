@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Szablon mechanizmu EJS</title>
+<meta http-equiv="Content-Language" content="pl"/>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta name="Author" content="Łukasz Czepielik"/>
+</head>
+<body>
+	<h1> Przykładowy szablon EJS</h1>
+	<ul>
+		<li>Przedmiot: <%= uprzedmiot %></li>
+		<li>Dzień: <%= udzien %></li>
+		<li>Godzina: <%= ugodzina %></li>
+	</ul>
+	<form name="fill" id="form" action="ajax_form_plyta.php" method="post" onsubmit="return validateForm()">
+	<table align="center" class="t1">
+		<tr>
+			<td class="wymagane">*Imię i Nazwisko</td>
+			<td><input type="text" name="imie"></td>
+		</tr>
+		<tr>
+			<td class="wymagane">*Numer Telefonu</td>
+			<td><input type="text" name="tel" maxlength="9"></td>
+		</tr>
+		<tr>
+			<td>Województwo</td>
+			<td><input type="text"></td>
+		</tr>
+		<tr>
+			<td>Miejscowość</td>
+			<td><input type="text"></td>
+		</tr>
+		<tr>
+			<td>Ulica</td>
+			<td><input type="text"></td>
+		</tr>
+		<tr>
+			<td>Treść Zapytania</td>
+			<td><textarea name="zapytanie" cols="50" maxlength="500" placeholder="Tutaj wpisz swoje zapytanie..." rows="10"></textarea></td>
+		</tr>
+		<tr>
+			<td>Wybór Fundamentu</td>
+			<td>
+			<label>Regularny:<input type="radio" id="fd" onclick="funda()" name="fudament" value="tak"/></label>
+			<label>Złożony:<input type="radio" onchange="funda2()" id="zl" name="fudament" value="tak"/></label><br>
+			<input type="text" id="x2" onchange="doliczenie()" style="display:none" placeholder="X:" value="">
+			<input type="text" id="y2" onchange="doliczenie()" style="display:none" placeholder="Y:" value="">
+			</td>
+		</tr>
+		<tr>
+			<td>Wymiary fundamentów</td>
+			<td>
+			<table id="t2">
+			<tr>
+			<td>Szerokość[m]:</td>
+			<td><input type="range" name="sliderx" min="1" max="100" onchange="x()" value="50" id="xwidth"></td>
+			<td><input type="text" name="dlug" width="10" id="xdlug"  value="50" disabled="disabled" /></td>
+			</tr>
+			<tr>
+			<td>Wysokość[m]:</td>
+			<td><input type="range" name="slidery" min="1" max="100" onchange="y()" value="50" id="yheight"></td>
+			<td><input type="text" name="wys" width="10" id="ywys"  value="50" disabled="disabled" /></td>
+			</tr>
+			</table>
+		</tr>
+		<tr>
+			<td>Powierzchnia fundamentu m<sup>2</sup></td>
+			<td><input type="text" name="suma" id="suma" readonly="readonly"></td>
+		</tr>
+		<tr>
+			<td>Typ fundamentu</td>
+			<td><label>Z ociepleniem:<input type="radio" name="ociep" value="tak"/></label><label>Bez ocieplenia:<input type="radio" name="ociep" value="nie"/></label></td>
+		</tr>
+		<tr>
+			<td>Opcje dodatkowe:</td>
+			<td>
+				<table id="t2">
+					<tr>
+						<td>
+						<label><input type="checkbox" value="szkody gornicze"/>Szkody górnicze</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<label><input type="checkbox" value="projekt zastepczy"/>Projekt zastępczy</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<label><input type="checkbox" onclick="dzi()" name="opcje" id="dz" value="dzialka pochylona"/>Działka pochylona</label>
+						</td>
+						<td>
+						<input id="dzp" placeholder="Kąt nachylenia działki:" style="display:none" type="text"/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<label><input type="checkbox" id="odw" onclick="sel()" value="odwierty geologicznie"/>Odwierty geologiczne</label>
+						</td>
+						<td>
+						<select id="selector" style="display:none">
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<label><input type="checkbox" value="dodatkowe ocieplenie"/>Dodatkowe ocieplenie</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+						<label><input type="checkbox"  value="dodatkowe odwodnienie"/>Dodatkowe odwodnienie</label>
+						</td>
+					</tr>				
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Wyślij" />
+			<input type="reset" value="Wyczyść" /></td>
+		</tr>
+	</table>
+	</form>
+	<script>
+	function y()
+// slider y
+{
+	var x=parseInt(document.getElementById("yheight").value);
+	document.forms.fill.ywys.value =x;
+
+	var y=parseInt(document.getElementById("xwidth").value);
+	var z=y*x;
+	document.forms.fill.suma.value =z;
+}
+	</script>
+	<script>
+	function x()
+// slider x
+{
+	var x=parseInt(document.getElementById("xwidth").value);
+	document.forms.fill.xdlug.value =x;
+
+	var y=parseInt(document.getElementById("yheight").value);
+	var z=y*x;
+	document.forms.fill.suma.value =z;
+}
+	</script>
+	<script>
+	function doliczenie()
+// ukryte doliczenie powierzchni
+{	
+	var c=parseInt(document.getElementById("suma").value);
+	var x=parseInt(document.getElementById("x2").value);
+	var y=parseInt(document.getElementById("y2").value);
+	var z=x*y;
+	document.forms.fill.suma.value = z;
+}
+	</script>
+	<script>
+// textarea limit
+	function limitText(limitField, limitNum) 
+{
+   if (limitField.value.length > limitNum) 
+   {
+   alert ("LIMIT ZNAKÓW OSIĄGNIĘTY");
+    } 
+}
+	</script>
+	<script>
+	function funda()
+{
+// ukryte pola do fundamentu regularnego
+if(document.getElementById("fd").checked == true)
+ document.getElementById("x2").style.display = "block";
+ document.getElementById("y2").style.display = "block";
+}
+	</script>
+	<script>
+	function funda2()
+{
+// ukryte pola do fundamentu zlozonego
+if(document.getElementById("fd").checked == false)
+ document.getElementById("x2").style.display = "none";
+ document.getElementById("y2").style.display = "none";
+}
+	</script>
+	<script>
+	function dzi()
+{
+// ukryty kat dzialki
+if(document.getElementById("dz").checked == true)
+ document.getElementById("dzp").style.display = "block";
+
+if(document.getElementById("dz").checked == false)
+ document.getElementById("dzp").style.display = "none";
+}
+	</script>
+	<script>
+	function sel()
+// liczba odwiertow
+{
+ if(document.getElementById("odw").checked == true)
+ document.getElementById("selector").style.display = "block";
+
+ if(document.getElementById("odw").checked == false)
+ document.getElementById("selector").style.display = "none";
+}
+	</script>
+	<script>
+	function validateForm() 
+	{
+//name
+	spr = /^[a-zA-ZąćęłńóśżźĄĆĘŁŃÓŚŻŹ]{2,20}$/;
+    wyn = fill.imie.value.match(spr);
+    if (wyn == null) 
+	{
+    alert("Co to za imię ? " + "W polu z imieniem mają znajdować się od 2 do 20 liter." + " W polu imię nie wpisuj cyfr !");
+    return false;
+    }
+//tel
+	 spr = /^[0-9]{9}$/;
+    wyn = fill.tel.value.match(spr);
+    if (wyn == null) 
+	{
+    alert("Nie wpisałeś 9 cyfr w numerze telefonu")
+	return false;
+    }
+	}
+</script>
+</body>
+</html>

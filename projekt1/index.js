@@ -1,0 +1,10 @@
+var cen = require("cenzura");
+console.log(cen.getCWord);
+var opis = "Jest miło gdzyby nie smutny, pochmurny, niedobry iszalony 1 dzien";
+console.log(opis);
+console.log(cen.cenzura(opis));
+cen.addCWord("ponury");
+console.log(cen.getCWord);
+var opis2 = "Jest miło gdzyby nie ponury, smutny, pochmurny,niedobry i szalony 1 dzien";
+console.log(opis2);
+console.log(cen.cenzura(opis2));

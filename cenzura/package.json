@@ -1,0 +1,12 @@
+{
+"author": "M Bernas",
+"name": "cenzura",
+"version": "0.0.1",
+"description": "kropkuje slowa",
+"main": "cenzuratxt",
+"dependencies": {
+},
+"engines": {
+"node":"*"
+}
+}

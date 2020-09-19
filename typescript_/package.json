@@ -1,0 +1,23 @@
+{
+  "name": "typescript_",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "car": "^1.0.0",
+    "grunt-ts": "^6.0.0-beta.21",
+    "gulp-tsc": "^1.3.2",
+    "gulp-typescript": "^5.0.0",
+    "typescript": "^3.2.2",
+    "vinyl-fs": "^3.0.3"
+  },
+  "devDependencies": {
+    "gulp": "git://github.com/gulpjs/gulp.git#6d71a658c61edb3090221579d8f97dbe086ba2ed",
+    "gulp-util": "^3.0.8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

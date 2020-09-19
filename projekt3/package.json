@@ -1,0 +1,15 @@
+{
+  "name": "projekt3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cenzura": "file:../cenzura/cenzura-0.0.1.tgz",
+    "miejsca_zerowe": "file:../miejsca_zerowe/miejsca_zerowe-1.0.0.tgz"
+  }
+}
